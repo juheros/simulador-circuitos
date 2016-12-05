@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<!-- saved from url=(0050)http://getbootstrap.com/examples/jumbotron-narrow/ -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="http://getbootstrap.com/favicon.ico">
+
+    <title>Simulador</title>
+
+    <!-- Bootstrap core CSS -->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+  </head>
+
+  <body>
+
+    <div class="cojntainer">
+      <div class="header clearfix">
+        <h3 class="text-muted">Simulador</h3>
+      </div>
+
+      <div class="row">
+        <img src="img/circuito.png" alt="" usemap="#circuit-map">
+        <map name="circuit-map" id="circuit-map">
+          <area  alt="" title="" href="#" shape="rect" coords="394,80,456,110" style="outline:none;" target="_self" onclick="getResistencia(2)" oncontextmenu="setResistencia(2)" />
+          <area  alt="" title="" href="#" shape="rect" coords="269,112,331,142" style="outline:none;" target="_self" onclick="getResistencia(1)" oncontextmenu="setResistencia(1)"/>
+          <area  alt="" title="" href="#" shape="rect" coords="517,80,579,110" style="outline:none;" target="_self" onclick="getResistencia(3)" oncontextmenu="setResistencia(3)"/>
+          <area  alt="" title="" href="#" shape="rect" coords="454,143,516,173" style="outline:none;" target="_self" onclick="getResistencia(4)" oncontextmenu="setResistencia(4)" />
+          <area  alt="" title="" href="#" shape="rect" coords="642,113,704,143" style="outline:none;" target="_self" onclick="getResistencia(5)" oncontextmenu="setResistencia(5)" />
+          <area  alt="" title="" href="#" shape="rect" coords="752,97,923,228" style="outline:none;" target="_self" onclick="getResistencia()" oncontextmenu="setFuente()" />
+          <area shape="rect" coords="1079,359,1081,361" alt="Image Map" style="outline:none;" title="Image Map" href="http://www.image-maps.com/index.php?aff=mapped_users_0" />
+          </map>
+
+      </div>
+
+
+
+      <footer class="footer">
+        <p>2016</p>
+      </footer>
+
+    </div> <!-- /container -->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
+    <script type="text/javascript">
+    var resistencias = [0,0,0,0,0,0];
+    var corriente = [];
+    var voltaje = [];
+
+    function getReq1(){
+      return resistencias[2] + resistencias[3];
+    }
+
+    function getReq2(){
+      return (1 / ( (1/getReq1()) + (1/resistencias[4])) );
+    }
+
+    function getReq3(){
+      return resistencias[1] + getReq2() + resistencias[5]
+    }
+
+    function getResistencia(id_resistencia){
+      console.log(resistencias);
+      console.log(corriente);
+      console.log(voltaje);
+      console.log(getReq1());
+      console.log(getReq2());
+      console.log(getReq3());
+    }
+
+    function setFuente(){
+      var ev = window.event;
+      ev.preventDefault();
+      bootbox.prompt({
+        title: "Ingrese el valor (voltios)",
+        inputType: 'number',
+        callback: function (result) {
+          voltaje[0] = parseFloat(result);
+        }
+      });
+    }
+
+    function setResistencia(id_resistencia){
+      var ev = window.event;
+      ev.preventDefault();
+      bootbox.prompt({
+        title: "Seleccione el valor de la resistencia",
+        inputType: 'select',
+        inputOptions: [
+            {
+                text: '10MΩ',
+                value: '10000000',
+            },
+            {
+                text: '1KΩ',
+                value: '1000',
+            },
+            {
+                text: '500Ω',
+                value: '500',
+            }
+        ],
+        callback: function (result) {
+          resistencias[id_resistencia] = parseInt(result);
+        }
+    });
+  }
+</script>
+
+</body></html>
